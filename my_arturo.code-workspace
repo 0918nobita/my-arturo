@@ -1,0 +1,19 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/*.backup": true,
+            "**/*.code-workspace": true
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "kosz78.nim"
+        ]
+    }
+}
