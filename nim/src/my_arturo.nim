@@ -161,8 +161,17 @@ func box [A](a: A): ref A =
     new(result)
     result[] = a
 
-# エントリーポイント
+import macros
+
+macro fact(arg: static[int]): int =
+    if arg <= 0:
+        quote do: 1
+    else:
+        quote do: `arg` * fact(`arg` - 1)
+
 when isMainModule:
+    echo "fact(4): " & $fact(4) # 24
+
     var token = initOptParser()
 
     token.next()
