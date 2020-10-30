@@ -119,12 +119,19 @@ template panic(msg: string): untyped =
     vmError = msg
     return
 
-# template require(op: OpCode): untyped =
-#    if SP < (static OpSpecs[op].args):
-#        panic ""
-#
-#    when (static OpSpecs[op].args) >= 1:
-#        when (static OpSpecs[op].a) != {ANY}:
+# 写経途中
+template require(op: OpCode): untyped =
+    if SP < (static OpSpecs[op].args):
+        panic "cannot perform"
+
+    when (static OpSpecs[op].args) >= 1:
+        when (static OpSpecs[op].a) != {ANY}:
+            if not (Stack[SP-1].kind in (static OpSpecs[op].a)):
+                let acceptStr = toSeq((OpSpecs[op].a).items).map(proc(
+                        x: ValueKind): string = ":" & ($(x)).toLowerAscii()).join(" ")
+                panic "cannot perform '" & (static OpSpecs[op].name) &
+                        "' -> :" & ($(Stack[SP-1].kind)).toLowerAscii() &
+                        "...; incorrect argument type for 1st parameter; accepts " & acceptsStr
 
 # template Add(): untyped =
 #     require(opAdd)
